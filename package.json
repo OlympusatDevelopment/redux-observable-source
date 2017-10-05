@@ -1,6 +1,6 @@
 {
   "name": "redux-observable-source",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Redux Middleware and data flow architecture for passing an Observable stream through an adapter to populate the branches on a state tree with data",
   "keywords": [
     "npm-package",

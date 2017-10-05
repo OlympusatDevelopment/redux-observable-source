@@ -1,91 +1,57 @@
-# rxsource
+# redux-observable-source
 
-#### Vuex Plugin for providing a reactive X single data source to the state tree via branch mappings.
-
-The power of this library is that you can tie an Observer to your ajax responses or a socket connection, then do a little mapping, and push into your application state from a single source. 
-
-Components in the app can just "announce" what data they need and they don't have to manage dispatching to the store, it will be done for them. Similarly, a socket based api can push to a socket on the client that is updating that same Observable Subject. 
-
-When a change comes in at any time, the Rxsource library that was passed the Observable will update the state tree and propagate changes down to any child component listening for updates. Ez-peezy reactive updates from a single, simple to reason about, source!
-
-## Usage
-Install the project into your vue project
-
-`npm i -S rxsource`
-
-Import it into your main store file
-
-`import { Rxsource, rxsourceModule } from 'rxsource'`
-
-Add the mutation, actions, and plugin to your Vuex store
-```
-  const testMap = [
-    {
-      branch: 'hello',
-      key: 'helloWorld',
-      updateByMerging: false // defaults to replace.
-    }
-  ]
-
-  const debug = process.env.NODE_ENV !== 'production'
-
-  const store = new Vuex.Store({
-    actions: {...actions, ...rxsourceModule.actions},
-    mutations: {...rxsourceModule.mutations},
-    plugins: [
-      Rxsource(somethingObservable$, testMap)
-    ],
-    getters,
-    modules: {
-      hello,
-      world
-    },
-    strict: debug
-  })
-```
-
-# Observable argument
-`Rxsource([Observable], [Mapper])`
-
-You'll see you need to pass the Rxsource plugin an Observable and a map.
-
-The Observable should expose a .subscribe method that gets updated via a "next" callback as the first callback. Rxsource relies on this standard observable structure. Behind the scenes we just subscribe to the observable then route the incoming data to a particular branch of your store based on the map you provide. 
-
-This structure works very well with GraphQL responses that return the key used by the API schema.
-
-# Mapper argument
-`Rxsource([Observable], [Mapper])`
-
-The mapper is a collection specifying the mapping and the merge strategy to be used internally.
-
-It's up to you to make sure you have your data behind a key that you can map. GraphQl does this for you, but for other apis you may have to add that key yourself when you get a response.
-
-```
-  const testMap = [
-    {
-      branch: 'hello',
-      key: 'helloWorld',
-      updateByMerging: false // defaults to replace.
-    }
-  ]
-```
-
-`branch` specifies what branch on your vuex state tree you want to apply the data to.
-`key` is the key to look for on the incoming data. FOr instance, given the incoming data has a structure of 
-```
-  {"getUserById":{id:1234,name:"Eli"}}
-```
-and the mapper has a configuration of
-```
-  const testMap = [
-    {
-      branch: 'user',
-      key: 'getUserById'
-    }
-  ]
-```
-then the user branch of the state tree will be updated with the data contained in getUserById.
-
-`updateByMerging` sets the merge strategy. If set to false or if it's not present then the default merge strategy is to replace the data in that particular branch of he state tree with the incoming data. If set to tru, then the incoming data will be merged (if it's an object), or it will be concatenated (if it's an array).
+Key  Data Flow Takeaways:
+	1. Components only announce they need data
+	2. Components can not directly dispatch for data. (Eliminates the need for Thunks or Sagas, reducing app complexity)
+	3. AJAX calls are made via the same fn and the response is fed to the Observable
+	4. Websocket pushes are fed to the same Observable getting AJAX responses
+	5. An Event Manager [ An Adapter ] is responsible for mapping data to branches in the State Tree
+	6. State Tree data is fed to components via branches.
 
 
+Data Mapping Considerations:
+Model Mapping Paradigm (won't work. Too many possible bugs when Model schema's match)
+If a Model type is predefined for a particular type of Event, then there can be a simple Adapter that maps Models to a branch on the tree
+
+User:{
+	Name,
+	id
+}
+
+adapterMap:{
+	myEliBranch: 'User' // User is the Model we will look for
+}
+
+// Adapter is setup with Model mappings, then Data is piped through it, the output becomes a keyed branch
+  Adapter(adapterMap)( ${name: 'Eli',id: 0} )
+        return myEliBranch:{name: 'Eli',id: 0}
+
+Keyed Response Paradigm
+ Any data fed to the Observable has to be keyed so the Adapter knows how to map data to the right branch.
+
+getUserById:{
+	Name,
+	id
+}
+
+adapterMap:{
+	user : 'getUserById' // User is the keywe will look for
+}
+
+Any data Observed that has a key of 'getUserById' will be pushed onto the 'user' branch of the tree
+
+Problem: Responses all need to be keyed. Ajax responses and socket pushes need to be keyed.
+Pros: Works great with graphql responses
+
+Tips: Easiest way to key ajax responses for non graphql responses is to use a helper fn to make the call where the responseKey is passed in, then the ajax response gets built using it
+
+
+
+If adapterMap were a collection, then the adapter could use either method, keyed response or Model as a fallback mapping, to decipher data
+adapterMap:[
+	{
+	dataKey: 'get UserById',
+	branch : 'user',
+	model : 'User'
+	}
+]
