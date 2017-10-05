@@ -1,0 +1,29 @@
+# IDE specific
+.idea
+
+# Logs
+npm-debug.log*
+
+# Dependencies
+node_modules
+
+# Coverage
+coverage
+
+# Cache
+.nyc_output
+.tmp
+
+# Sources, tests and builder files
+builder
+src
+test
+.babelrc
+.eslintignore
+.eslintrc
+.travis.yml
+webpack.config.base.js
+webpack.config.build.base.js
+webpack.config.build.development.js
+webpack.config.build.production.js
+webpack.config.test.babel.js
