@@ -2,7 +2,7 @@
  * Transform the stream here via adapterMap analysis
  * @param {*} adapterMap 
  */
-export const _EdsAdapter = adapterMap => streamData => {
+export const _SourceAdapter = adapterMap => streamData => {
   // Decipher here what branch the data must go to
   let branch, strategy, data;
 

@@ -1,12 +1,12 @@
 import { UPDATE } from  './constants';
-import { _EdsAdapter } from  './Adapter';
+import { _SourceAdapter } from  './Adapter';
 
 /**
  * The Event Creator is the Observable stream, for the sake of our description. This is the Event Manager. The Event consumer is the Store
  * @param {*} subject$ 
  */
-export const createEdsMiddleware = adapterMap => {
-  const adaptStream = _EdsAdapter(adapterMap);
+export const createSourceMiddleware = adapterMap => {
+  const adaptStream = _SourceAdapter(adapterMap);
 
   return subject$ => store => next => {
 
