@@ -1,5 +1,13 @@
 # redux-observable-source
-### A Redux Middleware and data flow architecture for passing an Observable stream through an adapter to populate the branches on a state tree with data
+### A Redux Middleware and data flow architecture for passing an Observable stream through an adapter to populate the branches on a state tree with data. How you get data to the observable is up to you, making it highly adaptable to your data sources, ie. websocket or ajax response as providers.
+
+[https://www.npmjs.com/package/redux-observable-source](https://www.npmjs.com/package/redux-observable-source)
+
+
+#### Install
+```
+npm i -S redux-observable-source
+```
 
 #### Key  Data Flow Takeaways:
 1. Components only announce they need data
