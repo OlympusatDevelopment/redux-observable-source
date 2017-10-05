@@ -1,1 +1,1 @@
-export const UPDATE = "+reduxSource/update";
+export const UPDATE = "+source/update";
