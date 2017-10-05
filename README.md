@@ -9,6 +9,9 @@
 npm i -S redux-observable-source
 ```
 
+#### Rough sketch of the architecture possible using a single source
+![Data flow](/architecture.png?raw=true "Data flow")
+
 #### Key  Data Flow Takeaways:
 1. Components only announce they need data
 2. Components can not directly dispatch for data. (Eliminates the need for Thunks or Sagas, reducing app complexity)
