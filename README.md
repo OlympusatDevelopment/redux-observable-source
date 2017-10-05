@@ -10,7 +10,7 @@ npm i -S redux-observable-source
 ```
 
 #### Rough sketch of the architecture possible using a single source
-![Data flow](/architecture.png?raw=true "Data flow")
+![https://github.com/OlympusatDevelopment/redux-observable-source](/architecture.png?raw=true "https://github.com/OlympusatDevelopment/redux-observable-source")
 
 #### Key  Data Flow Takeaways:
 1. Components only announce they need data
