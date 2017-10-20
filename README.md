@@ -1,7 +1,10 @@
 # redux-observable-source
-### A Redux Middleware and data flow architecture for passing an Observable stream through an adapter to populate the branches on a state tree with data. How you get data to the observable is up to you, making it highly adaptable to your data sources, ie. websocket or ajax response as providers.
+### As an integral piece in an Event-Driven Architecture, redux-observable-source is a Redux Middleware and data flow architecture for passing an Observable stream through an adapter to populate the branches on a state tree with data. How you get data to the observable is up to you, making it highly adaptable to your data sources, ie. websocket or ajax response as providers.
 
 [https://www.npmjs.com/package/redux-observable-source](https://www.npmjs.com/package/redux-observable-source)
+
+See this article on event driven architectures
+[https://hackernoon.com/by-2020-50-of-managed-apis-projected-to-be-event-driven-88f7041ea6d8](https://hackernoon.com/by-2020-50-of-managed-apis-projected-to-be-event-driven-88f7041ea6d8)
 
 
 #### Install
@@ -10,7 +13,7 @@ npm i -S redux-observable-source
 ```
 
 #### Example Use
-1. Import the SoureReducer and add to your Redux combineReducers object
+1. Import the SourceReducer and add to your Redux combineReducers object
 
 ```
   import { SourceReducer } from 'redux-observable-source';

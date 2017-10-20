@@ -11,10 +11,10 @@ export const createSourceMiddleware = adapterMap => {
   return subject$ => store => next => {
 
     // Subscribe to the observable, then adapt and parse the incoming data
-    subject$
-      .subscribe(data => {
-        store.dispatch({ type: UPDATE, data: adaptStream(data) });
-      });
+    // subject$
+    //   .subscribe(data => {
+    //     store.dispatch({ type: UPDATE, data: adaptStream(data) });
+    //   });
 
     return action => next(action)
   }
